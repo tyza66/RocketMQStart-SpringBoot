@@ -22,6 +22,10 @@ class C2StartProducerRetryApplicationTests {
 		rocketMQTemplate.convertAndSend(topic,"giao");
 	}
 
+	//测试同步消息
+	@Test
+	void testSync(){
 
+	}
 
 }
