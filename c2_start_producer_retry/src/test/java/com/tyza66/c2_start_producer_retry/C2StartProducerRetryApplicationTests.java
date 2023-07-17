@@ -16,9 +16,12 @@ class C2StartProducerRetryApplicationTests {
 	@Autowired
 	private RocketMQTemplate rocketMQTemplate;
 
+	//测试自动重试的发送消息（在配置文件中配置了重试的相关性信息）
 	@Test
-	void contextLoads() {
+	void testRetry() {
 		rocketMQTemplate.convertAndSend(topic,"giao");
 	}
+
+
 
 }
