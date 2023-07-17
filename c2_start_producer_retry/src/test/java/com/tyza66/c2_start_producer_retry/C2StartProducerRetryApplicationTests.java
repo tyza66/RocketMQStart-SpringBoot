@@ -8,7 +8,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 class C2StartProducerRetryApplicationTests {
@@ -52,10 +57,52 @@ class C2StartProducerRetryApplicationTests {
 	}
 
 	//测试单向消息
+	//不管有没有人接，是否成功 就管发，别的不管
 	@Test
 	public void testOneWay() {
 		rocketMQTemplate.sendOneWay(topic, "这是一条单向消息");
 	}
 
-	
+	//测试顺序队列
+	//有一种是全局的，有一种局部的 总体来说就是先进先出的表现 谁先放进去就先执行谁
+	@Test
+	public void testSyncSend() {
+		SendResult sendResult = rocketMQTemplate.syncSendOrderly(topic, "这是一条同步顺序消息", "order");
+
+		// 异步顺序消息
+		// rocketMQTemplate.asyncSendOrderly();
+
+		// 单向顺序消息
+		//  rocketMQTemplate.sendOneWayOrderly(, , , , , );
+		System.out.println(sendResult);
+	}
+
+	//测试延时消息
+	@Test
+	public  void testDelay(){
+		// 设置延时等级3,这个消息将在10s之后发送(现在只支持固定的几个时间,详看delayTimeLevel)
+		SendResult result=rocketMQTemplate.syncSend(topic, MessageBuilder.withPayload("这是一条延时消息").build(),1000,3);
+		System.out.println(result);
+	}
+
+
+	//测试批量消息
+	@Test
+	public  void testBatch(){
+		List<Message> messages = new ArrayList<>(); //这里使用的Message是spring中提供的
+		messages.add(MessageBuilder.withPayload("Hello 1").build());
+		messages.add(MessageBuilder.withPayload("Hello 2").build());
+		messages.add(MessageBuilder.withPayload("Hello 6").build());
+		rocketMQTemplate.syncSend(topic,messages);
+	}
+
+	//测试过滤消息
+	@Test
+	public void testTag(){
+		rocketMQTemplate.syncSend(topic+":tag1",MessageBuilder.withPayload("hello tag1").build());
+		rocketMQTemplate.syncSend(topic+":tag2",MessageBuilder.withPayload("hello tag2").build());
+		rocketMQTemplate.syncSend(topic+":tag3",MessageBuilder.withPayload("hello tag3").build());
+	}
+
+
 }
