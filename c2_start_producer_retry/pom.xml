@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.tyza66</groupId>
-	<artifactId>c1_start_producer</artifactId>
+	<artifactId>c2_start_producer_retry</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>c1_start_producer</name>
-	<description>c1_start_producer</description>
+	<name>c2_start_producer_retry</name>
+	<description>c2_start_producer_retry</description>
 	<properties>
 		<java.version>8</java.version>
 	</properties>

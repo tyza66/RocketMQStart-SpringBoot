@@ -6,7 +6,13 @@
       <list>
         <option value="$PROJECT_DIR$/c1_start_consumer/pom.xml" />
         <option value="$PROJECT_DIR$/c1_start_producer/pom.xml" />
+        <option value="$PROJECT_DIR$/c2_start_producer_retry/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/c2_start_producer_retry/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
