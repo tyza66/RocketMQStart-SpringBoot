@@ -26,19 +26,34 @@ public class AddUserAmountListener implements RocketMQLocalTransactionListener {
     public RocketMQLocalTransactionState executeLocalTransaction(Message msg, Object arg) {
         log.info("执行本地事务");
         MessageHeaders headers = msg.getHeaders();
+
         //获取事务ID
         String transactionId = (String) headers.get(RocketMQHeaders.TRANSACTION_ID);
         log.info("事务ID是{}",transactionId);
         System.out.println(msg.getPayload().toString());
 
+        //获得payload
+        byte[] payloadByte = (byte[]) msg.getPayload();
+        String payload = new String(payloadByte);
+        log.info("事务payload是{}",payload);
+
+        //获取自己添加的my_data
+        String myData = headers.get("my_data").toString();
+        log.info("myData是{}",myData);
+
+        //获取第三个参数里面放的
+        String argData = arg.toString();
+        log.info("argData是{}",argData);
 
         try{
             //执行本地事务，并记录日志
             int a = 1;
-            Thread.sleep(10000);
+            int b = a/0; //异常开关
             //执行成功，可以提交事务
+            log.info("本地事务执行成功");
             return RocketMQLocalTransactionState.COMMIT;
         }catch (Exception e){
+            log.info("本地事务执行失败");
             return RocketMQLocalTransactionState.ROLLBACK;
         }
     }
@@ -56,8 +71,10 @@ public class AddUserAmountListener implements RocketMQLocalTransactionListener {
         //检查事务是否执行成功
         boolean success = true;
         if(success){
+            log.info("本地事务检查结果成功");
             return RocketMQLocalTransactionState.COMMIT;
         }
+        log.info("本地事务检查结果失败");
         return RocketMQLocalTransactionState.ROLLBACK;
     }
 }

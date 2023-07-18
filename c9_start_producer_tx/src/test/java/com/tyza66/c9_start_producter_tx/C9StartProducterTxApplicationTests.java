@@ -26,7 +26,7 @@ class C9StartProducterTxApplicationTests {
 		map.put("age", 22);
 		map.put("sex", "男");
 		rocketMQTemplate.sendMessageInTransaction(topic,
-				MessageBuilder.withPayload(map)
+				MessageBuilder.withPayload("hello,world!") //这里的参数就是本地事务成功的时候传递给消息接收者的消息
 						.setHeader(RocketMQHeaders.TRANSACTION_ID, UUID.randomUUID().toString())
 						.setHeader("my_data", map)
 						.build(), map

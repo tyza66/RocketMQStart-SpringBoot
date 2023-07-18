@@ -16,7 +16,7 @@
 - C6：延时消息：设置消息在一定的时间之后发送，这个时间不能自定义，这里面有18个延时等级（1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h）(c1_start_consumer、c2_start_producer_retry、c3_start_consumer_sleep)
 - C7：批量消息：就是多个消息一起发送(c1_start_consumer、c2_start_producer_retry、c3_start_consumer_sleep)
 - C8：过滤消息：就是在消息的标题后面加上":tag"，之后消费者接收的时候按照不同的tag指定的的监听器进行接收（就是说这类消费者只接收相关类型的消息）(c1_start_consumer、c2_start_producer_retry、c3_start_consumer_sleep、c8_start_consumer_tags)
-- C9：*事务消息*：RocketMQ提供了事务消息，通过事务消息就能达到分布式事务的最终一致，甚至可以用事务消息实现分布式事务（事务消息共有三种状态：提交状态TransactionStatus.CommitTransaction、回滚状态TransactionStatus.RollbackTransaction、中间状态TransactionStatus.Unknown）(c2_start_producer_retry、c9_start_consumer_tx)
+- C9：*事务消息*：RocketMQ提供了事务消息，通过事务消息就能达到分布式事务的最终一致，甚至可以用事务消息实现分布式事务（事务消息共有三种状态：提交状态TransactionStatus.CommitTransaction、回滚状态TransactionStatus.RollbackTransaction、中间状态TransactionStatus.Unknown）(c1_start_consumer、c9_start_producer_tx)
 ![事务消息](./资料/事务消息.awebp)
 
 By：tyza66
