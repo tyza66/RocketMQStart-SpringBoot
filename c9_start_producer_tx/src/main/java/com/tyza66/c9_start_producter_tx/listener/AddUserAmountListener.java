@@ -60,7 +60,9 @@ public class AddUserAmountListener implements RocketMQLocalTransactionListener {
 
     /**
      * 本地事务的检查，检查本地事务是否成功
+     * checkLocalTransaction方法是在Broker端定期检查本地事务状态时执行的
      */
+
     @Override
     public RocketMQLocalTransactionState checkLocalTransaction(Message message) {
 
