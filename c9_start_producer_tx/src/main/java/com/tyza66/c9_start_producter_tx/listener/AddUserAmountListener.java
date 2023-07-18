@@ -1,4 +1,4 @@
-package com.tyza66.c9_start_consumer_tx.listener;
+package com.tyza66.c9_start_producter_tx.listener;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +9,7 @@ import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Author: tyza66
@@ -20,23 +21,21 @@ import org.springframework.messaging.MessageHeaders;
 @RocketMQTransactionListener
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AddUserAmountListener implements RocketMQLocalTransactionListener {
-    /**
-     * 执行本地事务
-     */
+
     @Override
-    public RocketMQLocalTransactionState executeLocalTransaction(Message message, Object arg) {
+    public RocketMQLocalTransactionState executeLocalTransaction(Message msg, Object arg) {
         log.info("执行本地事务");
-        System.out.println("执行本地事务");
-        MessageHeaders headers = message.getHeaders();
+        MessageHeaders headers = msg.getHeaders();
         //获取事务ID
         String transactionId = (String) headers.get(RocketMQHeaders.TRANSACTION_ID);
-        Integer orderId = Integer.valueOf((String)headers.get("order_id"));
-        log.info("transactionId is {}, orderId is {}",transactionId,orderId);
+        log.info("事务ID是{}",transactionId);
+        System.out.println(msg.getPayload().toString());
+
 
         try{
-            //执行本地事务
+            //执行本地事务，并记录日志
             int a = 1;
-            //int b = a/0;//错误
+            Thread.sleep(10000);
             //执行成功，可以提交事务
             return RocketMQLocalTransactionState.COMMIT;
         }catch (Exception e){
@@ -54,8 +53,8 @@ public class AddUserAmountListener implements RocketMQLocalTransactionListener {
         //获取事务ID
         String transactionId = (String) headers.get(RocketMQHeaders.TRANSACTION_ID);
         log.info("检查本地事务,事务ID:{}",transactionId);
-        //检查事务是否成功
-        boolean success = false;
+        //检查事务是否执行成功
+        boolean success = true;
         if(success){
             return RocketMQLocalTransactionState.COMMIT;
         }
